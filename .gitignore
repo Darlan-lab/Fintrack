@@ -1,0 +1,4 @@
+back/node_modules/
+back/Agents/
+back/prisma/generated/
+back/.env

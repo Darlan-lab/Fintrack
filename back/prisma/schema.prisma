@@ -12,12 +12,58 @@ datasource db {
   provider = "postgresql"
 }
 
+
+enum TipoConta {
+  CORRENTE
+  POUPANCA
+  INVESTIMENTO
+  CARTEIRA
+}
+
+enum TipoTransacao {
+  RECEITA
+  DESPESA
+}
+
 model User {
-  id Int @id @default(autoincrement())
-  nome String 
-  email String @unique
-  cpf String @unique
-  ativo Boolean @default(true)
-  dataCriacao DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  nome            String 
+  email           String   @unique
+  cpf             String   @unique
+  ativo           Boolean  @default(true)
+  dataCriacao     DateTime @default(now())
   dataAtualizacao DateTime @updatedAt
+
+  contas Conta[]
+}
+
+model Conta {
+ id               Int      @id @default(autoincrement())
+ agencia          String
+ conta            String  
+ banco            String
+ bancoCodigo      Int
+ tipo             TipoConta
+ saldo            Decimal  @default(0)
+ ativo            Boolean  @default(true)
+ dataCriacao      DateTime @default(now())
+ dataAtualizacao  DateTime @updatedAt
+
+ userID           Int
+ user             User @relation(fields: [userID], references: [id])
+
+ transacoes       Transacao[]
+}
+
+model Transacao {
+  id                Int           @id @default(autoincrement())
+  descricao         String
+  valor             Decimal
+  tipo              TipoTransacao
+  data              DateTime
+  dataCriacao       DateTime      @default(now())
+  dataAtualizacao   DateTime      @updatedAt
+
+  contaId           Int
+  conta             Conta         @relation(fields: [contaId], references: [id])
 }
