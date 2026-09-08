@@ -9,7 +9,7 @@ server.use(express.json());
 /*====================
     ROTA USUARIO 
 ======================*/
-server.use("/usuario", userRoute)
+server.use("/usuarios", userRoute)
 
 
 /*====================
