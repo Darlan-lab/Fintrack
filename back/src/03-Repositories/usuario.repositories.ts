@@ -1,5 +1,7 @@
 import {PrismaClient } from "../../prisma/generated/client.js"
 import {PrismaPg} from "@prisma/adapter-pg"
+import type {   UsuarioQuery,
+                UsuarioPut} from "../04-Schemas/usuario.schema.js";
 
 const adapter = new PrismaPg(`${process.env.DATABASE_URL}`);
 const prisma = new PrismaClient({ adapter })
@@ -9,6 +11,8 @@ interface Usuario {
     email: string;
     cpf: string;
 }
+
+
 
 /*====================
     POST USER 
@@ -35,6 +39,38 @@ export async function buscarUsersBanco (){
 }
 
 /*====================
+    GET USERS QUERRY
+======================*/
+
+export async function buscarUsersQuerryBanco(userQuery: UsuarioQuery){
+    const where = {
+        ...(userQuery.id !== undefined && {
+            id: userQuery.id
+        }),
+        ...(userQuery.nome !== undefined && {
+            nome: {
+                contains: userQuery.nome
+            }
+        }),
+        ...(userQuery.cpf !== undefined && {
+            cpf: userQuery.cpf
+        }),
+        ...(userQuery.email !== undefined && {
+            email: userQuery.email
+        }),
+        ...(userQuery.ativo !== undefined && {
+            ativo: userQuery.ativo
+        })
+    };
+
+    const user = await prisma.user.findMany({
+        where: where,
+    })
+
+    return user
+}
+
+/*====================
     GET USER POR ID
 ======================*/
 
@@ -51,16 +87,24 @@ export async function buscarUserBanco(id: number) {
     ATUALIZAR USUARIO
 ======================*/
 
-export async function atualizarUserBanco(id: number, nome: string, cpf: string, email: string) {
+export async function atualizarUserBanco(id: number, dados: UsuarioPut ) {
+    const data = {
+        ...(dados.nome !== undefined && {
+            nome: dados.nome
+        }),
+        ...(dados.cpf !== undefined && {
+            cpf: dados.cpf
+        }),
+        ...(dados.email !== undefined && {
+            email: dados.email
+        }),
+    }
+
     const usuario = await prisma.user.update({
         where:{
             id: id
         },
-        data: {
-            nome: nome,
-            cpf: cpf,
-            email: email
-        }        
+        data: data
     })
     return usuario;
 }
@@ -70,6 +114,18 @@ export async function atualizarUserBanco(id: number, nome: string, cpf: string, 
 ======================*/
 
 export async function deletarUserBanco(id: number) {
+    const usuario = await prisma.user.update({
+        where: {
+            id: id
+        },
+        data: {
+            ativo: false
+        }
+    })
+    return usuario;
+}
+
+/*export async function deletarUserBanco(id: number) {
     const usuario = await prisma.user.delete({
         where: {
             id: id
@@ -77,3 +133,4 @@ export async function deletarUserBanco(id: number) {
     })
     return usuario;
 }
+*/

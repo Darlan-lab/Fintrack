@@ -1,28 +1,76 @@
-import type { Request, Response, NextFunction } from "express";
-import { criarUserBanco, buscarUsersBanco, buscarUserBanco, atualizarUserBanco, deletarUserBanco} from "../03-Repositories/usuario.repositories.js";
+import type {   Request, 
+                Response,
+                NextFunction } from "express";
+
+import {    criarUserBanco,
+            buscarUsersBanco, 
+            buscarUsersQuerryBanco, 
+            buscarUserBanco, 
+            atualizarUserBanco, 
+            deletarUserBanco} from "../03-Repositories/usuario.repositories.js";
+
+import {    userSchema, 
+            userConsultaSchema,
+            userConsultaIdSchema, 
+            userSchemaPut} from "../04-Schemas/usuario.schema.js";
+
+import { ZodError } from "zod";
+import { tr } from "zod/locales";
+
 
 /*====================
     POST USER 
 ======================*/
 
 export async function criarUser (req: Request, res: Response, next: NextFunction){
-    const {nome, email, cpf} = req.body
-    const user = {
-        nome,
-        email,
-        cpf
+    try{
+        const {nome, email, cpf} = userSchema.parse(req.body)
+        const user = {
+            nome,
+            email,
+            cpf
+        }
+        const usuario = await criarUserBanco(user)
+        res.status(201).json({
+            mensagem: 'Usuario criado com sucesso', 
+            usuario: usuario})
     }
-    const usuario = await criarUserBanco(user)
-    res.status(201).json(usuario)
+    catch (error){
+        if (error instanceof ZodError){
+            return res.status(400).json({
+                mensage: "Requisiçao Invalida",
+                erros: error.issues
+            });
+        }
+        next(error);
+    }
 }
 
-/*====================
-    GET TODOS USERS
-======================*/
+/*==========================
+    GET TODOS USERS / QUERRY
+===========================*/
 
 export async function listarUsers (req: Request, res: Response, next: NextFunction){
-    const usuarios = await buscarUsersBanco();
-    res.status(200).json(usuarios)
+    try{
+        if(Object.keys(req.query).length === 0){
+            const usuarios = await buscarUsersBanco();
+            res.status(200).json(usuarios)
+        }
+        else{
+            const user = userConsultaSchema.parse(req.query)
+            const usuarios = await buscarUsersQuerryBanco(user);
+            res.status(200).json({result: 'Consulta efetuada com sucesso!', users: usuarios})
+        }
+    }
+    catch (error) {
+        if (error instanceof ZodError){
+            return res.status(400).json({
+                mensage: "Dados invalidos para requisiçao",
+                erros: error.issues
+            });
+        }
+        next(error);
+    }
 }
 
 /*====================
@@ -30,9 +78,20 @@ export async function listarUsers (req: Request, res: Response, next: NextFuncti
 ======================*/
 
 export async function buscarUser(req: Request<{id: string}>, res: Response, next: NextFunction) {
-    const id = Number(req.params.id)
-    const usuario = await buscarUserBanco(id);
-    res.status(200).json(usuario);
+    try{
+        const { id } = userConsultaIdSchema.parse(req.params)
+        const usuario = await buscarUserBanco(id);
+        res.status(200).json(usuario);
+    }
+    catch (error) {
+        if (error instanceof ZodError){
+            return res.status(400).json({
+                mensage: "Dados invalidos para requisiçao",
+                erros: error.issues
+            });
+        }
+        next(error)
+    }
 }
 
 /*====================
@@ -40,10 +99,21 @@ export async function buscarUser(req: Request<{id: string}>, res: Response, next
 ======================*/
 
 export async function atualizarUser(req: Request<{id: string}>, res: Response, next: NextFunction) {
-    const id = Number(req.params.id);
-    const {nome, email, cpf} = req.body
-    const usuario = await atualizarUserBanco(id, nome, cpf, email)
-    res.status(200).json(usuario);
+    try{
+        const { id } = userConsultaIdSchema.parse(req.params);
+        const dados = userSchemaPut.parse(req.body)
+        const usuario = await atualizarUserBanco(id, dados)
+        res.status(200).json(usuario);
+    }
+    catch (error) {
+        if (error instanceof ZodError){
+            return res.status(400).json({
+                mensage: "Dados invalidos para requisiçao",
+                erros: error.issues
+            });
+        }
+        next(error)
+    }
 }
 
 /*====================
@@ -51,7 +121,20 @@ export async function atualizarUser(req: Request<{id: string}>, res: Response, n
 ======================*/
 
 export async function deletarUser(req: Request<{id: string}>, res: Response, next: NextFunction) {
-    const id = Number(req.params.id);
-    const usuario = await deletarUserBanco(id);
-    res.status(200).json(usuario);
+    try{
+        const { id }= userConsultaIdSchema.parse(req.params);
+        const usuario = await deletarUserBanco(id);
+        res.status(200).json({
+            mensagem: 'Usuario Inativado com sucesso!', 
+            user: usuario});
+    }
+    catch (error) {
+        if (error instanceof ZodError){
+            return res.status(400).json({
+                mensage: "Dados invalidos para requisiçao",
+                erros: error.issues
+            });
+        }
+        next(error)        
+    }
 }
