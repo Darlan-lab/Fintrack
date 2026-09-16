@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 
+
 /*=================================
     Schema Usuario.body (Cadastro)
 ===================================*/
@@ -14,7 +15,14 @@ export const userSchema = z.object({
             .length(11, 'O CPF deve possuir 11 caracteres')
             .refine( (cpf) => validarCPF(cpf), 'CPF invalido'),
 
-    email:  z.email('Email Invalido')
+    email:  z.email('Email Invalido'),
+
+    senha:  z.string()
+            .min(7, 'A senha deve possuir no minimo 7 caracteres')
+            .regex(/[A-Z]/,"A senha deve possuir uma letra maiúscula")
+            .regex(/[a-z]/, "A senha deve possuir uma letra minúscula")
+            .regex(/[0-9]/, "A senha deve possuir um número")
+            .regex(/[^A-Za-z0-9]/, "A senha deve possuir um caractere especial")
 })
 
 export const userSchemaPut = userSchema.partial()
@@ -100,3 +108,4 @@ function validarCPF(cpf: string): boolean {
 
     return resto === Number(cpf[10]);
 }
+

@@ -1,13 +1,13 @@
 import express from "express"
-import { criarUser, listarUsers, buscarUser, atualizarUser, deletarUser} from "../01-Controlers/usuario.controler.js"
+import { User } from "../01-Controlers/usuario.controler.js"
 
 const route = express();
 
-route.post("/", criarUser);
-route.get("/", listarUsers);
-route.get("/:id", buscarUser);
-route.put("/:id", atualizarUser);
-route.delete("/:id", deletarUser);
+route.post("/", User.criarUser);
+route.get("/", User.listarUsers);
+route.get("/:id", User.buscarUser);
+route.put("/:id", User.atualizarUser);
+route.delete("/:id", User.deletarUser);
 
 export default route
 

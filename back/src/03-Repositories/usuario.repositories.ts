@@ -13,124 +13,125 @@ interface Usuario {
 }
 
 
+export class Database {
+    /*====================
+        POST USER 
+    ======================*/
 
-/*====================
-    POST USER 
-======================*/
-
-export async function criarUserBanco (usuario: Usuario){
-    const user = await prisma.user.create({
-        data: {
-            nome: usuario.nome,
-            email: usuario.email,
-            cpf: usuario.cpf
-        }
-    })
-    return user;
-}
-
-/*====================
-    GET TODOS USERS
-======================*/
-
-export async function buscarUsersBanco (){
-    const usuarios = await prisma.user.findMany()
-    return usuarios
-}
-
-/*====================
-    GET USERS QUERRY
-======================*/
-
-export async function buscarUsersQuerryBanco(userQuery: UsuarioQuery){
-    const where = {
-        ...(userQuery.id !== undefined && {
-            id: userQuery.id
-        }),
-        ...(userQuery.nome !== undefined && {
-            nome: {
-                contains: userQuery.nome
+    static async criarUserBanco (usuario: Usuario){
+        const user = await prisma.user.create({
+            data: {
+                nome: usuario.nome,
+                email: usuario.email,
+                cpf: usuario.cpf
             }
-        }),
-        ...(userQuery.cpf !== undefined && {
-            cpf: userQuery.cpf
-        }),
-        ...(userQuery.email !== undefined && {
-            email: userQuery.email
-        }),
-        ...(userQuery.ativo !== undefined && {
-            ativo: userQuery.ativo
         })
-    };
-
-    const user = await prisma.user.findMany({
-        where: where,
-    })
-
-    return user
-}
-
-/*====================
-    GET USER POR ID
-======================*/
-
-export async function buscarUserBanco(id: number) {
-    const usuario = await prisma.user.findUnique({
-        where:{
-            id: id
-        }
-    })
-    return usuario
-}
-
-/*====================
-    ATUALIZAR USUARIO
-======================*/
-
-export async function atualizarUserBanco(id: number, dados: UsuarioPut ) {
-    const data = {
-        ...(dados.nome !== undefined && {
-            nome: dados.nome
-        }),
-        ...(dados.cpf !== undefined && {
-            cpf: dados.cpf
-        }),
-        ...(dados.email !== undefined && {
-            email: dados.email
-        }),
+        return user;
     }
 
-    const usuario = await prisma.user.update({
-        where:{
-            id: id
-        },
-        data: data
-    })
-    return usuario;
-}
+    /*====================
+        GET TODOS USERS
+    ======================*/
 
-/*====================
-    DELETAR USER
-======================*/
+    static async buscarUsersBanco (){
+        const usuarios = await prisma.user.findMany()
+        return usuarios
+    }
 
-export async function deletarUserBanco(id: number) {
-    const usuario = await prisma.user.update({
-        where: {
-            id: id
-        },
-        data: {
-            ativo: false
+    /*====================
+        GET USERS QUERRY
+    ======================*/
+
+    static async buscarUsersQuerryBanco(userQuery: UsuarioQuery){
+        const where = {
+            ...(userQuery.id !== undefined && {
+                id: userQuery.id
+            }),
+            ...(userQuery.nome !== undefined && {
+                nome: {
+                    contains: userQuery.nome
+                }
+            }),
+            ...(userQuery.cpf !== undefined && {
+                cpf: userQuery.cpf
+            }),
+            ...(userQuery.email !== undefined && {
+                email: userQuery.email
+            }),
+            ...(userQuery.ativo !== undefined && {
+                ativo: userQuery.ativo
+            })
+        };
+
+        const user = await prisma.user.findMany({
+            where: where,
+        })
+
+        return user
+    }
+
+    /*====================
+        GET USER POR ID
+    ======================*/
+
+    static async buscarUserBanco(id: number) {
+        const usuario = await prisma.user.findUnique({
+            where:{
+                id: id
+            }
+        })
+        return usuario
+    }
+
+    /*====================
+        ATUALIZAR USUARIO
+    ======================*/
+
+    static async atualizarUserBanco(id: number, dados: UsuarioPut ) {
+        const data = {
+            ...(dados.nome !== undefined && {
+                nome: dados.nome
+            }),
+            ...(dados.cpf !== undefined && {
+                cpf: dados.cpf
+            }),
+            ...(dados.email !== undefined && {
+                email: dados.email
+            }),
         }
-    })
-    return usuario;
-}
 
-/*export async function deletarUserBanco(id: number) {
-    const usuario = await prisma.user.delete({
-        where: {
-            id: id
-        }
-    })
-    return usuario;
+        const usuario = await prisma.user.update({
+            where:{
+                id: id
+            },
+            data: data
+        })
+        return usuario;
+    }
+
+    /*====================
+        DELETAR USER
+    ======================*/
+
+    static async deletarUserBanco(id: number) {
+        const usuario = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                ativo: false
+            }
+        })
+        return usuario;
+    }
+
+    /*static async deletarUserBanco(id: number) {
+        const usuario = await prisma.user.delete({
+            where: {
+                id: id
+            }
+        })
+        return usuario;
+    }
+    */
 }
-*/
