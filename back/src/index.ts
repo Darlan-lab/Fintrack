@@ -1,6 +1,7 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import userRoute from "./00-Rotas/usuarios.route.js";
+import authRoute from "./00-Rotas/auth.route.js"
 
 const server = express();
 server.use(express.json());
@@ -10,7 +11,7 @@ server.use(express.json());
     ROTA USUARIO 
 ======================*/
 server.use("/usuarios", userRoute)
-
+server.use("/auth", authRoute)
 
 
 

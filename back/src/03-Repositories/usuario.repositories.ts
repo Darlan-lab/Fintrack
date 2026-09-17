@@ -10,6 +10,7 @@ interface Usuario {
     nome: string;
     email: string;
     cpf: string;
+    senhaHash: string
 }
 
 
@@ -23,7 +24,8 @@ export class Database {
             data: {
                 nome: usuario.nome,
                 email: usuario.email,
-                cpf: usuario.cpf
+                cpf: usuario.cpf, 
+                senhaHash: usuario.senhaHash
             }
         })
         return user;

@@ -10,6 +10,7 @@ import {    userSchema,
             userSchemaPut} from "../04-Schemas/usuario.schema.js";
 
 import { ZodError } from "zod";
+import { Criptografica } from "../05-Middlewares/criptografia-password.js";
 
 
 export class User {
@@ -22,7 +23,7 @@ export class User {
         try{
             const {nome, email, cpf, senha} = userSchema.parse(req.body)
 
-            const senhaHash
+            const senhaHash = await Criptografica.SenhaCriptografar(senha)
 
             const user = {
                 nome,
