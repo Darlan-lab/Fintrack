@@ -25,15 +25,22 @@ enum TipoTransacao {
   DESPESA
 }
 
+enum Autorizacao {
+  USUARIO
+  SUPORTE
+  ADMIN
+}
+
 model User {
-  id              Int      @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   nome            String 
-  email           String   @unique
+  email           String      @unique
   senhaHash       String   
-  cpf             String   @unique
-  ativo           Boolean  @default(true)
-  dataCriacao     DateTime @default(now())
-  dataAtualizacao DateTime @updatedAt
+  cpf             String      @unique
+  perfil          Autorizacao @default(USUARIO)
+  ativo           Boolean     @default(true)
+  dataCriacao     DateTime    @default(now())
+  dataAtualizacao DateTime    @updatedAt
 
   contas Conta[]
 }
