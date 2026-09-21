@@ -2,6 +2,8 @@ import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import userRoute from "./00-Rotas/usuarios.route.js";
 import authRoute from "./00-Rotas/auth.route.js"
+import { ApiError } from "./05-Middlewares/error.js";
+import { ZodError } from "zod";
 
 const server = express();
 server.use(express.json());
@@ -26,13 +28,20 @@ server.get("/" , (req:Request, res:Response, next:NextFunction) => {
 /*====================
     ERRO GENERICO
 ======================*/
-server.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log('\nErro Generico\n');
-    console.error(error);
+server.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+    
+    if (error instanceof ZodError){
+        return res.status(400).json({
+            mensage: "Dados invalidos para requisiçao",
+            erros: error.issues
+        });
+    }
 
-    res.status(500).json({
-        mensagem: "Erro interno do servidor"
-    });
+    if (error instanceof ApiError){
+        const statusCode = error.statusCode ?? 500;
+        const message = error.message ?? 'Erro interno no servidor'
+        return res.status(statusCode).json({message: message})
+    }
 });
 
 
