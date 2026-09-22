@@ -1,7 +1,8 @@
 import express from "express"
+import { Auth } from "../01-Controlers/auth.controler.js";
 
 const route = express();
 
-route.post("/", User.criarUser);
+route.post("/login", Auth.validarUser);
 
 export default route

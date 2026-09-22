@@ -37,12 +37,6 @@ export class User {
                 usuario: usuario})
         }
         catch (error){
-            if (error instanceof ZodError){
-                return res.status(400).json({
-                    mensage: "Requisiçao Invalida",
-                    erros: error.issues
-                });
-            }
             next(error);
         }
     }
@@ -64,12 +58,6 @@ export class User {
             }
         }
         catch (error) {
-            if (error instanceof ZodError){
-                return res.status(400).json({
-                    mensage: "Dados invalidos para requisiçao",
-                    erros: error.issues
-                });
-            }
             next(error);
         }
     }
@@ -85,12 +73,6 @@ export class User {
             res.status(200).json(usuario);
         }
         catch (error) {
-            if (error instanceof ZodError){
-                return res.status(400).json({
-                    mensage: "Dados invalidos para requisiçao",
-                    erros: error.issues
-                });
-            }
             next(error)
         }
     }
@@ -107,12 +89,6 @@ export class User {
             res.status(200).json(usuario);
         }
         catch (error) {
-            if (error instanceof ZodError){
-                return res.status(400).json({
-                    mensage: "Dados invalidos para requisiçao",
-                    erros: error.issues
-                });
-            }
             next(error)
         }
     }
@@ -130,12 +106,6 @@ export class User {
                 user: usuario});
         }
         catch (error) {
-            if (error instanceof ZodError){
-                return res.status(400).json({
-                    mensage: "Dados invalidos para requisiçao",
-                    erros: error.issues
-                });
-            }
             next(error)        
         }
     }
