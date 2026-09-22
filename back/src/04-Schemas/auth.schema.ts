@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Criptografica } from "../05-Middlewares/criptografia-password.js";
 
 export class AuthZod {
 

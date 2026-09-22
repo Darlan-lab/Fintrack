@@ -4,6 +4,8 @@ import userRoute from "./00-Rotas/usuarios.route.js";
 import authRoute from "./00-Rotas/auth.route.js"
 import { ApiError } from "./05-Middlewares/error.js";
 import { ZodError } from "zod";
+import { authMiddler } from "./05-Middlewares/autenticacao.js";
+import jwt from "jsonwebtoken";
 
 const server = express();
 server.use(express.json());
@@ -12,7 +14,7 @@ server.use(express.json());
 /*====================
     ROTA USUARIO 
 ======================*/
-server.use("/usuarios", userRoute)
+server.use("/usuarios", authMiddler, userRoute)
 server.use("/auth", authRoute)
 
 
@@ -26,7 +28,7 @@ server.get("/" , (req:Request, res:Response, next:NextFunction) => {
 })
 
 /*====================
-    ERRO GENERICO
+    ERRO 
 ======================*/
 server.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     
@@ -42,6 +44,17 @@ server.use((error: unknown, req: Request, res: Response, next: NextFunction) => 
         const message = error.message ?? 'Erro interno no servidor'
         return res.status(statusCode).json({message: message})
     }
+
+    if (error instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({
+            mensagem: "Token inválido"
+        });
+    }
+
+    console.error(error);
+    return res.status(500).json({
+        mensagem: "Erro interno no servidor"
+    });
 });
 
 
