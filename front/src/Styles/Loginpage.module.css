@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    width: 100%;
+    height: calc(100vh - 28.5px);
+    align-items: center;
+    justify-items: center;
+
+}
+
+.formulario {
+    margin-top: 20%;
+    padding: 20% 20%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    align-items: center;
+}
+
+.esquerdaLogin {
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/Fintrack-Login\ -\ 1920x1080.enc.jpg);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.direita {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(238, 238, 194);
+}
