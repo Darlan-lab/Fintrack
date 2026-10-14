@@ -20,7 +20,6 @@ export class Auth {
         try{
             const {email, senha} = AuthZod.authSchema.parse(req.body)
 
-            console.log(email, senha)
             const user = await AuthDatabase.BuscarUserEmail(email)
             if (!user){
                 throw new ApiError('Email ou senha invalidos', 401)

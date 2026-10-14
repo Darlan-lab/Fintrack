@@ -14,15 +14,6 @@
 
 }
 
-.formulario {
-    margin-top: 20%;
-    padding: 20% 20%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    align-items: center;
-}
-
 .esquerdaLogin {
     width: 100%;
     height: 100%;
@@ -36,4 +27,20 @@
     width: 100%;
     height: 100%;
     background-color: rgb(238, 238, 194);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.form {
+    display: flex;
+    flex-flow: column;
+    min-width: 300px;
+}
+
+.span {
+    min-height: 20px;
+    color: red;
 }
