@@ -8,12 +8,17 @@ import { authMiddler } from "./05-Middlewares/autenticacao.js";
 import jwt from "jsonwebtoken";
 import cors from "cors"
 import { Prisma } from "../prisma/generated/client.js";
+import cookieParser from "cookie-parser";
 
 const server = express();
+
 server.use( express.json(),
             cors({
                 origin: "http://localhost:5173",
-}));
+                credentials: true,
+            }),
+            cookieParser());
+
 
 
 /*====================

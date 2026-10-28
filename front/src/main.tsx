@@ -4,6 +4,7 @@ import InitialPage from './Pages/InitialPage.tsx'
 import LoginPage from './Pages/LoginPage.tsx' 
 import RegisterPage from './Pages/RegisterPage.tsx'
 import HomePage from './Pages/HomePage.tsx'
+import PrivateRoute from './Components/PrivateRoute.tsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/' element={<InitialPage/>} />
         <Route path='/login' element={<LoginPage/>} />
         <Route path='/register' element={<RegisterPage/>} />
-        <Route path='/home' element={<HomePage/>} />
+        <Route element= {<PrivateRoute/>}>
+          <Route path='/home' element={<HomePage/>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </StrictMode>,

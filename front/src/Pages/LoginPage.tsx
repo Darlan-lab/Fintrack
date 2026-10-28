@@ -6,8 +6,11 @@ import {ApiAuth} from '../Services/API-Auth'
 import { yupResolver } from "@hookform/resolvers/yup";
 import {LoginSchema} from "../Schemas/LoginSchema"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage(){
+
+    const navigate = useNavigate()
 
     type loginUser = {
         email: string,
@@ -34,6 +37,7 @@ function LoginPage(){
         }
         else{
             setMensagem("")
+            navigate("/home")
         }
     }
 
