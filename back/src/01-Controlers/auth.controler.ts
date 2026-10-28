@@ -35,15 +35,33 @@ export class Auth {
             if (!JWT_S){
                 throw new Error('JWT nao configurado')
             }
-            const logado = jwt.sign({sub: user.id, email: user.email}, JWT_S, {expiresIn: "1h"})
+            const token = jwt.sign({sub: user.id, email: user.email}, JWT_S, {expiresIn: "15m"})
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "producao",
+                sameSite: "lax",
+                maxAge: 15 * 60 * 1000,
+                path: "/"
+            })
 
             return res.status(200).json({
-                usuario: {id: user.id, email: user.email},
-                token: logado
+                usuario: {id: user.id, email: user.email}
             })
         }
         catch (error){
             next(error)
+        }
+    }
+
+    static async autenticarUser(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.status(200).json({
+                mensage: "Usuario Autenticado"
+            })
+        }
+        catch(erro){
+            next(erro)
         }
     }
 }

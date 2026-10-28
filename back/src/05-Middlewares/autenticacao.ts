@@ -7,15 +7,15 @@ import "dotenv/config"
 
 export function authMiddler (req: Request, res: Response, next: NextFunction) {
     try{
-    const { authorization } = req.headers
-        if (!authorization){
+        const token = req.cookies?.token;
+        if (!token){
             throw new ApiError('Token nao informado', 401);
         }
 
-        const [bearer , token] = authorization.split(' ')
+        /*const [bearer , token] = authorization.split(' ')
         if (bearer !== "Bearer" || !token) {
             throw new ApiError("Token inválido", 401);
-        }
+        }*/
 
         const JWT_S = process.env.JWT_SECRET
         if (!JWT_S){
@@ -24,7 +24,6 @@ export function authMiddler (req: Request, res: Response, next: NextFunction) {
 
         const jwtvalid = jwt.verify(token, JWT_S)
 
-        console.log(jwtvalid)
         next()
     }
     catch (error){
