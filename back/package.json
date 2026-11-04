@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec tsx src/server.ts"
+
+    "dev": "NODE_ENV=dev DB_ENV=local nodemon --exec tsx src/server.ts",
+    "dev:supabase": "NODE_ENV=dev DB_ENV=supabase nodemon --exec tsx src/server.ts",
+
+    "migrate:dev": "DB_ENV=local prisma migrate dev",
+    "migrate:deploy:supabase": "DB_ENV=supabase prisma migrate deploy",
+    "migrate:status:local": "DB_ENV=local prisma migrate status",
+    "migrate:status:supabase": "DB_ENV=supabase prisma migrate status"
   },
   "keywords": [],
   "author": "Darlan",
