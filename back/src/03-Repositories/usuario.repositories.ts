@@ -1,10 +1,7 @@
-import {PrismaClient } from "../../prisma/generated/client.js"
-import {PrismaPg} from "@prisma/adapter-pg"
+import {prisma} from "../../prisma/prisma.adapter.js"
 import type {   UsuarioQuery,
                 UsuarioPut} from "../04-Schemas/usuario.schema.js";
 
-const adapter = new PrismaPg(`${process.env.DATABASE_URL}`);
-const prisma = new PrismaClient({ adapter })
 
 interface Usuario {
     nome: string;

@@ -2,6 +2,15 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
+import { ApiError } from "./src/05-Middlewares/error.js";
+
+const database = process.env.DB_ENV === "supabase"
+    ? process.env.DIRECT_URL_SUPABASE
+    : process.env.DATABASE_URL_LOCAL;
+
+if (!database){
+  new ApiError("Erro na conexao com database", 500)
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -9,6 +18,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: database,
   },
 });
