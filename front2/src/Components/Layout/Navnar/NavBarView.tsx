@@ -21,10 +21,10 @@ export function NavBarView() {
 
             {/* Links centrais */}
             <ul className={styles.UL}>
-                <li>Início</li>
-                <li>Sobre</li>
-                <li>Funcionalidades</li>
-                <li>Fale Conosco</li>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#contato">Fale Conosco</a></li>
             </ul>
 
             {/* Botões à direita */}
@@ -60,10 +60,10 @@ export function NavBarView() {
             {menu && (
                 <div className={styles.MOBILE_MENU_ABERTO}>
                     <ul className={styles.MOBILE_LINKS}>
-                        <li onClick={inverteMenu}>Início</li>
-                        <li onClick={inverteMenu}>Sobre</li>
-                        <li onClick={inverteMenu}>Funcionalidades</li>
-                        <li onClick={inverteMenu}>Fale Conosco</li>
+                        <li><a href="#inicio" onClick={inverteMenu}>Início</a></li>
+                        <li><a href="#sobre" onClick={inverteMenu}>Sobre</a></li>
+                        <li><a href="#funcionalidades" onClick={inverteMenu}>Funcionalidades</a></li>
+                        <li><a href="#contato" onClick={inverteMenu}>Fale Conosco</a></li>
                     </ul>
 
                     <button className={styles.BTN_LOGIN}>
