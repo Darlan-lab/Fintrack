@@ -6,6 +6,7 @@ export function NavBarView() {
     const {
         menu,
         inverteMenu,
+        navegarSecao
     } = NavBarViewModel();
 
     return (
@@ -21,10 +22,10 @@ export function NavBarView() {
 
             {/* Links centrais */}
             <ul className={styles.UL}>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#funcionalidades">Funcionalidades</a></li>
-                <li><a href="#contato">Fale Conosco</a></li>
+                <li><a onClick={() => navegarSecao("inicio")}>Início</a></li>
+                <li><a onClick={() => navegarSecao("sobre")}>Sobre</a></li>
+                <li><a onClick={() => navegarSecao("funcionalidades")}>Funcionalidades</a></li>
+                <li><a onClick={() => navegarSecao("contato")}>Fale Conosco</a></li>
             </ul>
 
             {/* Botões à direita */}

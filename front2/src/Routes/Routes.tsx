@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // IMPORTE DAS PAGINAS DAS ROTAS
 import {InitialPageView} from "../Pages/InitialPage/InicialPageView"
@@ -13,6 +13,7 @@ function Rotas() {
                 <Route path="/" element={<InitialPageView />} />
                 <Route path="/login" element={<LoginPageView />} />
                 <Route path="/register" element={<RegisterPageView />} />
+                <Route path="*" element={ <Navigate to='/'/>} />
             </Routes>
         </BrowserRouter>
     );

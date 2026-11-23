@@ -83,13 +83,13 @@ export const styles = {
         2xl:px-5 2xl:py-4 2xl:text-xl
         focus:border-[#C9A20F] focus:ring-2 focus:ring-[#FDCD1D]/20`,
 
-    ERROR: `text-rose-600
-        text-xs
-        sm:text-sm
-        md:text-sm
-        lg:text-sm
-        xl:text-sm
-        2xl:text-base`,
+    ERROR: `min-h-5 text-rose-600
+        min-h-5 text-xs
+        min-h-5 sm:text-sm
+        min-h-5 md:text-sm
+        min-h-5 lg:text-sm
+        min-h-5 xl:text-sm
+        min-h-5 2xl:text-base`,
 
     BUTTON: `w-full bg-[#FDCD1D] text-[#151D2C] rounded-lg cursor-pointer font-semibold transition
         py-2.5 text-sm
